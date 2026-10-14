@@ -81,6 +81,14 @@ figure{margin:0}
 .press li{display:grid; grid-template-columns:9.5em minmax(0,1fr); gap:6px 18px; padding:11px 0; border-top:1px solid var(--rule)}
 .press li:first-child{border-top:0}
 .press .outlet{font-weight:600}
+.sub-h{font-size:clamp(20px,2.4vw,26px); letter-spacing:-.015em; line-height:1.15; margin:40px 0 8px; font-weight:800}
+.comm .topic{font-family:var(--serif); font-size:18px}
+.videos{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:28px 24px; max-width:74ch}
+.vcard{display:block; color:inherit; text-decoration:none}
+.vcard img{width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:4px; background:var(--chip)}
+.vcard .vt{display:block; font-weight:600; margin:10px 0 2px; color:var(--ink)}
+.vcard:hover .vt{text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:.18em}
+.vcard .vm{display:block; color:var(--muted); font-size:15px}
 .press a{font-family:var(--serif); font-size:18px}
 
 .bg{width:100%; border-collapse:collapse; max-width:74ch}
@@ -105,6 +113,7 @@ footer p{margin:0 0 6px; max-width:60ch}
   .photos{grid-template-columns:1fr 1fr}
   .photos img{height:170px}
   .two{grid-template-columns:1fr}
+  .videos{grid-template-columns:1fr}
   .bg th{width:auto}
   .bg .when{white-space:normal}
 }
@@ -141,6 +150,15 @@ footer p{margin:0 0 6px; max-width:60ch}
       <h2 id="press-h"></h2>
       <p class="sec-note" id="press-note"></p>
       <ul class="press" id="press-list"></ul>
+      <h3 class="sub-h" id="comm-h"></h3>
+      <p class="sec-note" id="comm-note"></p>
+      <ul class="press comm" id="comm-list"></ul>
+    </section>
+
+    <section id="video">
+      <h2 id="video-h"></h2>
+      <p class="sec-note" id="video-note"></p>
+      <div class="videos" id="video-list"></div>
     </section>
 
     <section id="bg">
@@ -168,10 +186,10 @@ const IMG = {me:"data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAQDAwQD
 
 const ROLES = ["all","pr","pmm","marcom","pm"];
 const ORDER = {
-  all:["perforator","trisigma","conf","seeding","yagpt","expf","plait"],
-  pr:["perforator","trisigma","conf","yagpt","expf","plait","seeding"],
-  pmm:["trisigma","perforator","yagpt"],
-  marcom:["conf","seeding","perforator"],
+  all:["perforator","trisigma","conf","seeding","owned","yagpt","openmodels","expf","plait"],
+  pr:["perforator","trisigma","conf","yagpt","openmodels","owned","expf","plait","seeding"],
+  pmm:["trisigma","perforator","yagpt","owned"],
+  marcom:["conf","seeding","owned","perforator"],
   pm:["conf","plait","seeding"]
 };
 
@@ -188,7 +206,9 @@ en:{
   lead:"I have worked in communications for five years, the last two at large technology companies. I bring <mark>technology products</mark> to market, including language models and open-source tools. I present them to developers in their professional communities and secure <mark>coverage in business media</mark>. I also run <mark>advertising campaigns with bloggers and Telegram channels</mark> and promote industry conferences through outdoor advertising, partnerships and press relations.",
   contact:["Tbilisi, Georgia, open to relocation","English C1, Japanese B2, Russian native"],
   cv:"CV (PDF)", cvAsk:"Ask for my CV",
-  workH:"Case studies", workNote:"Seven case studies. Select a role to view the relevant cases.",
+  workH:"Case studies", workNote:"Nine case studies. Select a role to view the relevant cases.",
+  videoH:"Video", videoNote:"Video projects I worked on. YouTube view counts as of October 2026.",
+  commH:"Executive commentary", commNote:"Expert commentary I prepared for business media on behalf of company executives.",
   filter:{all:"All",pr:"PR and communications",pmm:"Product marketing",marcom:"Marketing communications",pm:"Project management"},
   open:"View case study",
   labels:{context:"Context",task:"Task",role:"My role",did:"What I did",results:"Results",links:"Links",note:"Conclusion"},
@@ -210,7 +230,9 @@ ru:{
   lead:"Пять лет работаю в коммуникациях, последние два года в крупных технологических компаниях. Вывожу на рынок <mark>технологические продукты</mark>, включая языковые модели и инструменты с открытым кодом. Рассказываю о них разработчикам в профильных сообществах и обеспечиваю <mark>публикации в деловых СМИ</mark>. Провожу <mark>рекламные кампании у блогеров и в Telegram-каналах</mark> и продвигаю отраслевые конференции с помощью наружной рекламы, партнёрств и работы с прессой.",
   contact:["Тбилиси, готов к переезду","Английский C1, японский B2"],
   cv:"Резюме (PDF)", cvAsk:"Запросить резюме",
-  workH:"Кейсы", workNote:"Семь кейсов. Выберите роль, чтобы увидеть относящиеся к ней проекты.",
+  workH:"Кейсы", workNote:"Девять кейсов. Выберите роль, чтобы увидеть относящиеся к ней проекты.",
+  videoH:"Видео", videoNote:"Видеопроекты, в которых я участвовал. Просмотры на YouTube указаны на октябрь 2026 года.",
+  commH:"Комментарии первых лиц", commNote:"Экспертные комментарии руководителей компании, которые я готовил для деловых СМИ.",
   filter:{all:"Все",pr:"PR и коммуникации",pmm:"Продуктовый маркетинг",marcom:"Маркетинговые коммуникации",pm:"Управление проектами"},
   open:"Открыть кейс",
   labels:{context:"Контекст",task:"Задача",role:"Моя роль",did:"Что делал",results:"Результат",links:"Ссылки",note:"Вывод"},
@@ -247,7 +269,7 @@ const CASES = [
 },
 {
  id:"trisigma", roles:["pr","pmm"],
- links:[["CNews, Burger King Russia","https://www.cnews.ru/articles/2025-12-23_burger_king_rossiya_vnedril_platformu"],["CNews, Detsky Mir","https://www.cnews.ru/articles/2026-02-27_kak_detskij_mir_vystraivaet_abeksperimenty"],["CNews, VPC","https://www.cnews.ru/news/line/2026-04-17_avito_teh_rasshiryaet_model"]],
+ links:[["AviTalk", "https://www.youtube.com/watch?v=h9ZKWyZEwgc"],["CNews, Burger King Russia","https://www.cnews.ru/articles/2025-12-23_burger_king_rossiya_vnedril_platformu"],["CNews, Detsky Mir","https://www.cnews.ru/articles/2026-02-27_kak_detskij_mir_vystraivaet_abeksperimenty"],["CNews, VPC","https://www.cnews.ru/news/line/2026-04-17_avito_teh_rasshiryaet_model"]],
  en:{meta:"Avito Tech, July 2025 to May 2026",
   title:"Customer case studies for Trisigma, a B2B SaaS platform in its first year on the market",
   lead:"CNews published three articles within four months. Two enterprise customers spoke on the record in case studies based on my interviews with their chief product officers.",
@@ -269,7 +291,7 @@ const CASES = [
 },
 {
  id:"conf", roles:["pr","marcom","pm"], photos:true,
- links:[["Kod.ru","https://kod.ru/avito-tech-conf-2026-it-leaders-ai"]],
+ links:[["Talk recording", "https://www.youtube.com/watch?v=tyYwA8s2nrw"],["Kod.ru","https://kod.ru/avito-tech-conf-2026-it-leaders-ai"]],
  en:{meta:"Avito, August to October 2025",
   title:"Integrated campaign for avito.tech.conf, the company's first engineering management conference",
   lead:"The conference attracted about 1,000 on-site guests and 10,000 online viewers. The campaign generated 1,627 registrations at about RUB 1,100 each within a budget of RUB 8 to 9 million, or approximately $100,000.",
@@ -291,7 +313,7 @@ const CASES = [
 },
 {
  id:"seeding", roles:["marcom","pr","pm"],
- links:[["VK Video","https://vkvideo.ru/video-152990965_456240085"]],
+ links:[["YouTube", "https://www.youtube.com/watch?v=WS27Nkx2lyU"],["VK Video","https://vkvideo.ru/video-152990965_456240085"]],
  en:{meta:"Avito, August 2025 to February 2026",
   title:"Influencer seeding programme in Telegram with eight campaigns in four months",
   lead:"The programme delivered 104 placements and 4.4 million views at an average cost of RUB 2.2 per view. The total budget was about RUB 10 million, or approximately $120,000.",
@@ -313,7 +335,7 @@ const CASES = [
 },
 {
  id:"yagpt", roles:["pr","pmm"],
- links:[["Kommersant","https://www.kommersant.ru/doc/7533997"],["Forbes","https://www.forbes.ru/tekhnologii/544737-andeks-otkryl-dostup-k-novoj-ii-modeli-dla-kompanij"],["Hugging Face","https://huggingface.co/yandex/YandexGPT-5-Lite-8B-pretrain"],["ppc.world","https://ppc.world/news/yandeks-predstavil-yandexgpt-5-pro-i-perezapustil-chat-s-alisoy/"]],
+ links:[["Podcast", "https://www.youtube.com/watch?v=cD2q4reMfG0"],["Kommersant","https://www.kommersant.ru/doc/7533997"],["Forbes","https://www.forbes.ru/tekhnologii/544737-andeks-otkryl-dostup-k-novoj-ii-modeli-dla-kompanij"],["Hugging Face","https://huggingface.co/yandex/YandexGPT-5-Lite-8B-pretrain"],["ppc.world","https://ppc.world/news/yandeks-predstavil-yandexgpt-5-pro-i-perezapustil-chat-s-alisoy/"]],
  en:{meta:"Yandex, February to March 2025",
   title:"Developer communications for the launch of YandexGPT 5",
   lead:"The launch was covered by 23 outlets, including RBC and Kommersant. The open Lite model received 122 likes on Hugging Face in its first week.",
@@ -321,7 +343,7 @@ const CASES = [
   task:"Developers are the most demanding audience for a model launch. They examine benchmarks, read the licence and ask how the model was trained.",
   role:"I worked in the launch team and was responsible for the developer community track and for the plan covering the weeks after the launch. Media pitching was carried out by the whole team.",
   did:["Prepared key messages for technical communities and the brief for seeding in developer channels.","Prepared the Q&A for technical questions.","Developed a plan of 11 post-launch initiatives, including a Habr article on training optimisation, a podcast episode, presentations for university students, a prompting guide and research cases based on the open model. About 70% of the plan was delivered."],
-  results:["Kommersant covered the open release of the Lite model on 25 February 2025.","The launch was covered by 23 outlets, including an RBC exclusive and Kommersant, which is a result of the whole team.","Eight further technology outlets covered the open-source release.","The Lite model received 122 likes on Hugging Face in the first week and more than 200 subsequently, with 26 community discussions."],
+  results:["Kommersant covered the open release of the Lite model on 25 February 2025.","The launch was covered by 23 outlets, including an RBC exclusive and Kommersant, which is a result of the whole team.","Eight further technology outlets covered the open-source release.","The Lite model received 122 likes on Hugging Face in the first week and more than 200 subsequently, with 26 community discussions.","The podcast episode from the post-launch plan, released on 10 April 2025, has 114,000 views on YouTube."],
   note:"Media assess a model on the launch day, whereas developers form their opinion over the following month. A separate plan for developers should be ready before the release."},
  ru:{meta:"Яндекс, февраль и март 2025 года",
   title:"Коммуникации для разработчиков на запуске YandexGPT 5",
@@ -330,7 +352,7 @@ const CASES = [
   task:"Разработчики являются самой требовательной аудиторией при запуске модели. Они изучают бенчмарки, читают лицензию и спрашивают, как модель обучалась.",
   role:"Я работал в команде запуска и отвечал за направление сообщества разработчиков и за план на недели после запуска. Питчинг в СМИ вела вся команда.",
   did:["Подготовил ключевые сообщения для технических сообществ и бриф на посевы в каналах для разработчиков.","Подготовил Q&A по техническим вопросам.","Разработал план из 11 инициатив после запуска, включая статью на Хабре об оптимизации обучения, выпуск подкаста, выступления перед студентами, руководство по промптам и исследовательские кейсы на открытой модели. Реализовано около 70% плана."],
-  results:["25 февраля 2025 года «Коммерсантъ» написал о выходе модели Lite в открытый доступ.","О запуске написали 23 издания, включая эксклюзив РБК и «Коммерсантъ», что является результатом всей команды.","Ещё восемь технологических изданий написали об опенсорс-релизе.","Модель Lite получила 122 лайка на Hugging Face за первую неделю и более 200 в дальнейшем, в сообществе открыто 26 обсуждений."],
+  results:["25 февраля 2025 года «Коммерсантъ» написал о выходе модели Lite в открытый доступ.","О запуске написали 23 издания, включая эксклюзив РБК и «Коммерсантъ», что является результатом всей команды.","Ещё восемь технологических изданий написали об опенсорс-релизе.","Модель Lite получила 122 лайка на Hugging Face за первую неделю и более 200 в дальнейшем, в сообществе открыто 26 обсуждений.","Выпуск подкаста из плана после запуска вышел 10 апреля 2025 года и набрал 114 тыс. просмотров на YouTube."],
   note:"СМИ оценивают модель в день запуска, тогда как разработчики формируют мнение в течение следующего месяца. Отдельный план для разработчиков должен быть готов до выхода релиза."}
 },
 {
@@ -376,9 +398,13 @@ const CASES = [
   did:["Собрал фактуру у продуктовой команды и партнёра и согласовал пресс-релиз с обеими сторонами.","Подготовил список СМИ, включающий финтех, e-commerce и деловые издания.","Провёл рассылку через PR-агентство и волну посевов из восьми размещений в новостных и городских каналах."],
   results:["25 августа 2025 года о запуске написали Forbes, Inc. Russia, vc.ru и iGuides, формулировка о первой рассрочке на C2C-рынке вошла в заголовки.","Посевы обеспечили 763 тысячи просмотров по 1,3 рубля за просмотр.","МедиаИндекс составил 1350."],
   note:"При приёме направления в первую очередь следует составить реестр статусов с согласованными вопросами, блокерами и ответственными за решения."}
-}
+},
+{"id": "owned", "roles": ["pr", "marcom", "pmm"], "links": [["Telegram AvitoTech", "https://t.me/avitotech"], ["Telegram Trisigma", "https://t.me/trisigma_avito"], ["Habr", "https://habr.com/ru/companies/avito/"]], "en": {"meta": "Avito, June 2025 to May 2026", "title": "Owned media for the engineering brand and the Trisigma product", "lead": "I ran the AvitoTech engineering Telegram channel, which now has 25,400 subscribers, and the Trisigma product channel with 7,300 subscribers. I also wrote posts for the AvitoTech blog on Habr, which has 203,000 subscribers.", "context": "AvitoTech is the engineering brand of the largest classifieds marketplace in Russia. Its owned channels reach developers and engineering managers directly, without media as an intermediary. The Trisigma channel came to the company with the acquisition of the EXPF Sigma platform and addresses product analysts and managers who run A/B tests.", "task": "Keep both channels relevant for a professional audience and use them to support launches, events, hiring and the Trisigma product.", "role": "I was responsible for the content of both Telegram channels and wrote posts for the corporate blog on Habr.", "did": ["Planned and published posts about engineering projects, launches, conferences and meetups.", "Ran the Trisigma channel after the acquisition and used it for product news, customer case studies and invitations to industry events.", "Prepared news and announcements for the AvitoTech blog on Habr."], "results": ["The average post reach of the AvitoTech channel grew by about 30% over the year according to internal statistics.", "As of October 2026 the AvitoTech channel has 25,400 subscribers and the Trisigma channel has 7,300.", "The AvitoTech blog on Habr has 203,000 subscribers."], "note": "Owned channels give the most direct access to a professional audience, provided that every post gives the reader a clear reason to open it."}, "ru": {"meta": "Авито, с июня 2025 по май 2026", "title": "Собственные медиа технологического бренда и продукта Trisigma", "lead": "Я вёл Telegram-канал технологического бренда AvitoTech, у которого сейчас 25,4 тыс. подписчиков, и продуктовый канал Trisigma с 7,3 тыс. подписчиков. Также писал материалы для блога AvitoTech на Хабре с аудиторией 203 тыс. подписчиков.", "context": "AvitoTech является технологическим брендом крупнейшего классифайда в России. Собственные каналы позволяют обращаться к разработчикам и руководителям разработки напрямую, без посредничества СМИ. Канал Trisigma перешёл к компании вместе с платформой EXPF Sigma и адресован продуктовым аналитикам и менеджерам, которые проводят A/B-тесты.", "task": "Сохранять ценность обоих каналов для профессиональной аудитории и использовать их для поддержки запусков, мероприятий, найма и продукта Trisigma.", "role": "Я отвечал за контент обоих Telegram-каналов и писал материалы для корпоративного блога на Хабре.", "did": ["Планировал и публиковал посты об инженерных проектах, запусках, конференциях и митапах.", "После сделки вёл канал Trisigma и использовал его для продуктовых новостей, клиентских кейсов и приглашений на отраслевые мероприятия.", "Готовил новости и анонсы для блога AvitoTech на Хабре."], "results": ["Средний охват постов канала AvitoTech вырос примерно на 30% за год по внутренней статистике.", "На октябрь 2026 года у канала AvitoTech 25,4 тыс. подписчиков, у канала Trisigma 7,3 тыс.", "Блог AvitoTech на Хабре читают 203 тыс. подписчиков."], "note": "Собственные каналы дают самый прямой доступ к профессиональной аудитории, если у каждого поста есть понятная причина для читателя его открыть."}},
+{"id": "openmodels", "roles": ["pr", "pmm"], "links": [], "en": {"meta": "Yandex, January and February 2025", "title": "Reactive messaging on open models after the DeepSeek release", "lead": "After the release of the DeepSeek models in January 2025 I worked with the team on the company's position on open language models for questions from media and the developer community.", "context": "In January 2025 the Chinese company DeepSeek released open models comparable to leading commercial solutions at a considerably lower reported training cost. The release raised public questions about whether large companies still needed their own models and how they should treat open ones. The company was preparing the launch of its new model family at the same time.", "task": "Give spokespeople a consistent and accurate position before the question reached the company through journalists and the developer community.", "role": "I worked on the communications messages together with the PR team, based on the technical analysis from the ML team.", "did": ["Translated the technical assessment of the DeepSeek models into public statements.", "Built the position around three messages. Open models strengthen competition and benefit the industry. The company's expertise in pre-training and fine-tuning allows it to use open solutions effectively. The company contributes to open source itself.", "Recorded the statements the company would not make, so that spokespeople avoided commitments not agreed with the product teams."], "results": ["The company had an agreed position on open models before the launch of its new model family.", "The position carried into the launch communications a month later, when the company released one of its models as open source."], "note": "In reactive communications an accurate position matters more than speed. A clear list of what the company does not say protects spokespeople as much as the key messages do."}, "ru": {"meta": "Яндекс, январь и февраль 2025", "title": "Реактивные коммуникации об открытых моделях после выхода DeepSeek", "lead": "После выхода моделей DeepSeek в январе 2025 года я вместе с командой готовил позицию компании об открытых языковых моделях для ответов СМИ и сообществу разработчиков.", "context": "В январе 2025 года китайская компания DeepSeek выпустила открытые модели, сопоставимые с ведущими коммерческими решениями при заметно меньших заявленных затратах на обучение. Релиз вызвал публичные вопросы о том, нужны ли крупным компаниям собственные модели и как им относиться к открытым. В это же время компания готовила запуск нового семейства моделей.", "task": "Дать спикерам единую и точную позицию до того, как вопрос придёт в компанию через журналистов и сообщество разработчиков.", "role": "Я работал над коммуникационными тезисами вместе с PR-командой на основе технического анализа ML-команды.", "did": ["Перевёл техническую оценку моделей DeepSeek в публичные формулировки.", "Выстроил позицию вокруг трёх тезисов. Открытые модели усиливают конкуренцию и полезны для отрасли. Экспертиза компании в предобучении и дообучении позволяет эффективно использовать открытые решения. Компания сама вкладывается в опенсорс.", "Зафиксировал перечень заявлений, которые компания не делает, чтобы спикеры не давали обязательств, не согласованных с продуктовыми командами."], "results": ["К запуску нового семейства моделей у компании была согласованная позиция по открытым моделям.", "Позиция вошла в коммуникации запуска через месяц, когда компания выложила одну из моделей в открытый доступ."], "note": "В реактивных коммуникациях точность позиции важнее скорости. Список того, чего компания не говорит, защищает спикеров не меньше, чем ключевые сообщения."}}
 ];
 
+const VIDEO = [{"id": "cD2q4reMfG0", "en": "Podcast episode on the YandexGPT 5 launch", "ru": "Выпуск подкаста о запуске YandexGPT 5", "men": "Yandex, April 2025, 114,000 views", "mru": "Яндекс, апрель 2025, 114 тыс. просмотров"}, {"id": "WS27Nkx2lyU", "en": "Documentary on the evolution of engineering at Avito", "ru": "Документальный фильм об эволюции разработки в Авито", "men": "Avito, February 2026, 126,000 views on VK Video and 6,000 on YouTube", "mru": "Авито, февраль 2026, 126 тыс. просмотров в VK Видео и 6 тыс. на YouTube"}, {"id": "h9ZKWyZEwgc", "en": "Interview with the Trisigma CEO in the AviTalk show", "ru": "Интервью с CEO Trisigma в шоу AviTalk", "men": "Avito, March 2026, 2,700 views", "mru": "Авито, март 2026, 2,7 тыс. просмотров"}, {"id": "tyYwA8s2nrw", "en": "Conference talk on launching LLM projects at avito.tech.conf 2025", "ru": "Доклад о запуске LLM-проектов на avito.tech.conf 2025", "men": "Avito, December 2025, 1,100 views", "mru": "Авито, декабрь 2025, 1,1 тыс. просмотров"}];
+const COMM = [{"outlet": "RBC", "outlet_ru": "РБК", "en": "AI in hiring and HR process automation. Director of HR Tech, August 2025", "ru": "ИИ в найме и автоматизация HR-процессов. Директор по HR-tech, август 2025"}, {"outlet": "Kommersant Review", "outlet_ru": "«Коммерсантъ Review»", "en": "Instalments and BNPL services on the C2C market. CPO Fintech, October 2025", "ru": "Рассрочка и сервисы оплаты частями на C2C-рынке. Продуктовый директор финтех-направления, октябрь 2025"}, {"outlet": "Inc.", "outlet_ru": "Inc.", "en": "AI response latency and inference optimisation. Head of LLM development, March 2026", "ru": "Скорость ответа ИИ и оптимизация инференса. Руководитель разработки LLM, март 2026"}];
 const PRESS = [
  ["Kommersant","IT-структура «Авито» купила права на аналитическую платформу EXPF Sigma","Avito's IT arm buys the rights to the EXPF Sigma analytics platform","https://www.kommersant.ru/doc/7855348"],
  ["Kommersant","«Яндекс» выложил пятое поколение YandexGPT Lite в открытый доступ","Yandex releases the fifth generation of YandexGPT Lite as an open model","https://www.kommersant.ru/doc/7533997"],
@@ -460,13 +486,25 @@ function render(){
       html += '<figure class="photos"><img src="'+IMG.bb2+'" alt="'+cap+'" loading="lazy"><img src="'+IMG.bb1+'" alt="" loading="lazy"><img src="'+IMG.cup+'" alt="" loading="lazy"><figcaption>'+cap+'</figcaption></figure>';
     }
     html += "<h4>"+L.results+"</h4>"+li(d.results)+"<h4>"+L.note+"</h4><p>"+d.note+"</p>";
-    html += "<h4>"+L.links+"</h4><p>"+x.links.map(l=>'<a href="'+l[1]+'" rel="noopener" target="_blank">'+l[0]+'</a>').join(", ")+"</p>";
+    if(x.links.length) html += "<h4>"+L.links+"</h4><p>"+x.links.map(l=>'<a href="'+l[1]+'" rel="noopener" target="_blank">'+l[0]+'</a>').join(", ")+"</p>";
     b.innerHTML = html; det.appendChild(b); a.appendChild(det); box.appendChild(a);
   });
 
   $("press-h").textContent = t.pressH; $("press-note").textContent = t.pressNote;
   const pl = $("press-list"); pl.innerHTML = "";
   PRESS.forEach(p => pl.appendChild(el("li",null,'<span class="outlet">'+p[0]+'</span><a href="'+p[3]+'" rel="noopener" target="_blank">'+(state.lang==="ru"?p[1]:p[2])+'</a>')));
+
+  $("comm-h").textContent = t.commH; $("comm-note").textContent = t.commNote;
+  const cl = $("comm-list"); cl.innerHTML = "";
+  COMM.forEach(c => cl.appendChild(el("li",null,'<span class="outlet">'+(state.lang==="ru"?c.outlet_ru:c.outlet)+'</span><span class="topic">'+(state.lang==="ru"?c.ru:c.en)+'</span>')));
+
+  $("video-h").textContent = t.videoH; $("video-note").textContent = t.videoNote;
+  const vl = $("video-list"); vl.innerHTML = "";
+  VIDEO.forEach(v => {
+    const a = el("a",{class:"vcard", href:"https://www.youtube.com/watch?v="+v.id, rel:"noopener", target:"_blank"});
+    a.innerHTML = '<img src="https://i.ytimg.com/vi/'+v.id+'/hqdefault.jpg" alt="" loading="lazy" width="480" height="270"><span class="vt">'+(state.lang==="ru"?v.ru:v.en)+'</span><span class="vm">'+(state.lang==="ru"?v.mru:v.men)+'</span>';
+    vl.appendChild(a);
+  });
 
   $("bg-h").textContent = t.bgH;
   $("bg-table").innerHTML = BG[state.lang].map(r=>'<tr><th scope="row">'+r[0]+'</th><td>'+r[1]+'</td><td class="when">'+r[2]+'</td></tr>').join("");
