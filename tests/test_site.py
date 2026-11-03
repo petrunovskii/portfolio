@@ -7,6 +7,7 @@ ROOT=Path(__file__).resolve().parents[1]
 
 def test_static_content_and_contacts():
     for name in ('index.html','ru/index.html'):
+        assert b'\r\n' not in (ROOT/name).read_bytes()
         soup=BeautifulSoup((ROOT/name).read_text(encoding='utf-8'),'html.parser')
         assert len(soup.select('article.case'))==9
         assert soup.select_one('h1').get_text().strip()

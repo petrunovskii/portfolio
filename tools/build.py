@@ -77,7 +77,7 @@ def build(lang):
 <footer id="contact"><p class="footer-lead">{e(t['footBig'])}</p><div class="actions"><a href="mailto:{e(PROFILE['email'])}">{e(PROFILE['email'])}</a>{link('Telegram',PROFILE['telegram'])}{link('LinkedIn',PROFILE['linkedin'])}</div></footer></div><script type="application/json" id="site-data">{safe_data}</script></body></html>'''
     dest = ROOT / ('ru/index.html' if ru else 'index.html')
     dest.parent.mkdir(exist_ok=True)
-    dest.write_text(text,encoding='utf-8')
+    dest.write_text(text,encoding='utf-8',newline='\n')
 
 
 if __name__ == '__main__':
