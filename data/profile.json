@@ -1,0 +1,57 @@
+{
+  "version": "2026-11-03",
+  "full_name": "Yurii Petrunovskii",
+  "email": "petrunovskii.work@gmail.com",
+  "phone": "+995 511 733 228",
+  "linkedin": "https://www.linkedin.com/in/yurii-petrunovskiy/",
+  "website": "https://petrunovskii.github.io/portfolio/",
+  "location": "Tbilisi, Georgia",
+  "education": "Double Bachelor's degree in Economics and Politics in Asia, HSE University and Kyung Hee University, 2019-2023. Master's degree in International Business, HSE University, 2026. Exchange semester at Waseda University.",
+  "telegram": "https://t.me/petrunovskii",
+  "roles": {
+    "en": {
+      "pr": {
+        "title": "Tech and AI communications manager",
+        "lead": "I turn complex technology into clear stories for developers and business media. My work covers AI and open-source launches, B2B SaaS customer stories and executive communications."
+      },
+      "pmm": {
+        "title": "Product marketing for B2B SaaS and AI",
+        "lead": "I develop messaging for technical products and turn customer interviews into published case studies. My experience connects product teams, developers and business audiences through launch communications."
+      },
+      "marcom": {
+        "title": "Marketing communications for technology brands",
+        "lead": "I plan campaigns across events, outdoor advertising, partnerships and Telegram. I coordinate agencies and track registrations, reach and cost per result."
+      },
+      "pm": {
+        "title": "Project management in marketing and communications",
+        "lead": "I manage multi-channel launches with agencies, budgets and fixed deadlines. My experience includes conference campaigns, product announcements and taking over projects already in progress."
+      },
+      "all": {
+        "title": "Tech and AI communications manager",
+        "lead": "I turn complex technology into clear stories for developers and business media. My work covers AI and open-source launches, B2B SaaS customer stories and executive communications."
+      }
+    },
+    "ru": {
+      "pr": {
+        "title": "Коммуникации технологических и AI-продуктов",
+        "lead": "Превращаю сложные технологии в понятные истории для разработчиков и деловых СМИ. Работаю с запусками AI- и опенсорс-продуктов, клиентскими кейсами B2B SaaS и коммуникациями руководителей."
+      },
+      "pmm": {
+        "title": "Продуктовый маркетинг B2B SaaS и AI",
+        "lead": "Разрабатываю сообщения о технических продуктах и превращаю интервью с клиентами в опубликованные кейсы. Связываю продуктовые команды, разработчиков и деловую аудиторию через коммуникации запусков."
+      },
+      "marcom": {
+        "title": "Маркетинговые коммуникации технологических брендов",
+        "lead": "Планирую кампании с мероприятиями, наружной рекламой, партнёрствами и Telegram. Координирую агентства и считаю регистрации, охват и стоимость результата."
+      },
+      "pm": {
+        "title": "Управление проектами в маркетинге и коммуникациях",
+        "lead": "Веду многоканальные запуски с агентствами, бюджетами и фиксированными сроками. Среди проектов — конференции, продуктовые анонсы и приём направлений в процессе работы."
+      },
+      "all": {
+        "title": "Коммуникации технологических и AI-продуктов",
+        "lead": "Превращаю сложные технологии в понятные истории для разработчиков и деловых СМИ. Работаю с запусками AI- и опенсорс-продуктов, клиентскими кейсами B2B SaaS и коммуникациями руководителей."
+      }
+    }
+  }
+}
