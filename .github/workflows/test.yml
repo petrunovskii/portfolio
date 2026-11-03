@@ -11,4 +11,5 @@ jobs:
         with:
           python-version: '3.12'
       - run: pip install -r requirements-dev.txt
+      - run: python tools/build.py && git diff --exit-code -- index.html ru/index.html
       - run: python -m pytest -q
