@@ -1,0 +1,23 @@
+{
+  "version": "2026-11-03",
+  "email": "petrunovskii.work@gmail.com",
+  "profile_hash": "4bf1e1c89e3da9663e2fc221f28ad5122c6d616d64a6032b830fb94275ae933c",
+  "files": {
+    "tech_ai_comms": {
+      "filename": "Yurii_Petrunovskii_CV_Tech_AI_Communications.pdf",
+      "sha256": "6788ab3ce5e743d206cc8c200320f45ebdbfc46ef41902506cab5fbd772ef886"
+    },
+    "pmm": {
+      "filename": "Yurii_Petrunovskii_CV_Product_Marketing.pdf",
+      "sha256": "2223db82fbeee856d1c7949d144ecb8b12de8f4668919c4e3d735c1cfcf9a52c"
+    },
+    "marcom": {
+      "filename": "Yurii_Petrunovskii_CV_Marketing_Communications.pdf",
+      "sha256": "d541c9826265d90d6c41ac0ab4cfdb29a1c75a8d428266c85c70ec57af2ecd0f"
+    },
+    "project_manager": {
+      "filename": "Yurii_Petrunovskii_CV_Project_Manager_Marketing.pdf",
+      "sha256": "10c743a3701e23bb5f4778dfb1f2418f610a90a49bdff09fcf1e69800ae9168f"
+    }
+  }
+}
