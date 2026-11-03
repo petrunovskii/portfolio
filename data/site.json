@@ -125,6 +125,10 @@
         [
           "Habr article",
           "https://habr.com/ru/articles/875070/"
+        ],
+        [
+          "Official launch announcement (EN)",
+          "https://ir.yandex/press-releases?id=30-01-2025&year=2025"
         ]
       ],
       "en": {
@@ -210,7 +214,7 @@
         ],
         "results": [
           "CNews published the Burger King Russia case study on 23 December 2025.",
-          "CNews published the Detsky Mir case study on 27 February 2026.",
+          "CNews published the Detsky Mir case study on 2 March 2026.",
           "CNews and Telecom Daily covered the Virtual Private Cloud delivery model on 17 April 2026.",
           "The AviTalk interview with the Trisigma CEO has 2,739 views on YouTube."
         ],
@@ -232,7 +236,7 @@
         ],
         "results": [
           "23 декабря 2025 года CNews опубликовал кейс «Бургер Кинг Россия».",
-          "27 февраля 2026 года CNews опубликовал кейс «Детского мира».",
+          "2 марта 2026 года CNews опубликовал кейс «Детского мира».",
           "17 апреля 2026 года CNews и Telecom Daily написали о поставке в формате Virtual Private Cloud.",
           "Интервью с CEO Trisigma в шоу AviTalk набрало 2739 просмотров на YouTube."
         ],
